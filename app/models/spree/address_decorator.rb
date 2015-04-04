@@ -4,7 +4,7 @@ Spree::Address.class_eval do
 
 	clear_validators!
 
-	validates :address1, :city, :user_name, :district, presence: true
+	validates :address1, :city,:phone, :user_name, :district, presence: true
 
 
 	# _validators.reject!{ |key, _| key == :firstname }
