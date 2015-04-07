@@ -1,5 +1,5 @@
 Spree::Api::AddressesController.class_eval do
-	before_action :find_order, :except => [:create]
+	before_action :find_order, :except => [:create, :update]
 	before_action :authenticate_user
 
 	def create
@@ -25,12 +25,26 @@ Spree::Api::AddressesController.class_eval do
 		end
 	end
 
-	def show
-		
-	end
+	def update
+		@order = Spree::Order.find_by!(ship_address_id: params[:id])
+		authorize! :update, @order
+		if params[:time_delivery_id]
+			@order.time_delivery_id = params[:time_delivery_id]
+			@order.save!
+		end
+			@address = Spree::Address.find(params[:id])
+			if @address
+				if @address.update(address_params)
+					@status = [ { "messages" => "Update Address Successful"}]
+					render "spree/api/logger/log", status: 200
+				end
+			else
+				invalid_resource!(@address)
+			end
+		end
 
-	private 
-	def address_params
-		params.require(:address).permit(:user_name, :address1, :phone, :city, :district)
+		private 
+		def address_params
+			params.require(:address).permit(:user_name, :address1, :phone, :city, :district)
+		end
 	end
-end
