@@ -32,6 +32,7 @@ Spree::Api::AddressesController.class_eval do
 			@order.time_delivery_id = params[:time_delivery_id]
 			@order.save!
 		end
+		if address_params
 			@address = Spree::Address.find(params[:id])
 			if @address
 				if @address.update(address_params)
@@ -42,9 +43,10 @@ Spree::Api::AddressesController.class_eval do
 				invalid_resource!(@address)
 			end
 		end
-
-		private 
-		def address_params
-			params.require(:address).permit(:user_name, :address1, :phone, :city, :district)
-		end
 	end
+
+	private 
+	def address_params
+		params.require(:address).permit(:user_name, :address1, :phone, :city, :district)
+	end
+end
