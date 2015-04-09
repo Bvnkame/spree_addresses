@@ -32,7 +32,7 @@ Spree::Api::AddressesController.class_eval do
 			@order.time_delivery_id = params[:time_delivery_id]
 			@order.save!
 		end
-		if address_params
+		if params[:address]
 			@address = Spree::Address.find(params[:id])
 			if @address
 				if @address.update(address_params)
