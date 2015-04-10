@@ -28,20 +28,14 @@ Spree::Api::AddressesController.class_eval do
 	def update
 		@order = Spree::Order.find_by!(ship_address_id: params[:id])
 		authorize! :update, @order
-		if params[:time_delivery_id]
-			@order.time_delivery_id = params[:time_delivery_id]
-			@order.save!
-		end
-		if params[:address]
-			@address = Spree::Address.find(params[:id])
-			if @address
-				if @address.update(address_params)
-					@status = [ { "messages" => "Update Address Successful"}]
-					render "spree/api/logger/log", status: 200
-				end
-			else
-				invalid_resource!(@address)
+		@address = Spree::Address.find(params[:id])
+		if @address
+			if @address.update(address_params)
+				@status = [ { "messages" => "Update Address Successful"}]
+				render "spree/api/logger/log", status: 200
 			end
+		else
+			invalid_resource!(@address)
 		end
 	end
 
