@@ -4,4 +4,6 @@ Spree::Core::Engine.routes.draw do
   	resources :addresses, only: [:show, :update, :create]
   	resources :time_deliveries
   end
+  get "/api/address_latest" => "api/addresses#latest_address"
+
 end

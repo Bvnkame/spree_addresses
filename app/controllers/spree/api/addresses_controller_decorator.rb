@@ -1,5 +1,5 @@
 Spree::Api::AddressesController.class_eval do
-	before_action :find_order, :except => [:create, :update]
+	before_action :find_order, :except => [:create, :update, :latest_address]
 	before_action :authenticate_user
 
 	def create
@@ -37,6 +37,12 @@ Spree::Api::AddressesController.class_eval do
 		else
 			invalid_resource!(@address)
 		end
+	end
+
+	def latest_address
+		@user = Spree::User.find(current_api_user.id)
+		@order = @user.orders.order(:completed_at).last
+		render "spree/api/addresses/show", status: 200
 	end
 
 	private 
