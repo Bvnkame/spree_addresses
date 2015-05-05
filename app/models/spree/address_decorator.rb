@@ -1,7 +1,5 @@
 Spree::Address.class_eval do
 
-	belongs_to :user, foreign_key: :user_id, class_name: 'Spree::User'
-
 	clear_validators!
 
 	validates :address1, :city,:phone, :user_name, :district, presence: true

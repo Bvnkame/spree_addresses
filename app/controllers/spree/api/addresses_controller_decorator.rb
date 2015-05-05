@@ -7,7 +7,6 @@ Spree::Api::AddressesController.class_eval do
 		
 		if @time_delivery 
 			address = Spree::Address.create(address_params)
-			address.user_id = current_api_user.id
 			address.save!
 			@order = Spree::Order.where(number: params[:cart_number]).first
 			if @order
