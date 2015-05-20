@@ -40,7 +40,7 @@ Spree::Api::AddressesController.class_eval do
 
 	def latest_address
 		@user = Spree::User.find(current_api_user.id)
-		@order = @user.orders.order(:updated_at).last
+		@order = @user.orders.where.not(ship_address_id: nil, time_delivery_id: nil).order(:updated_at).last
 		render "spree/api/addresses/show", status: 200
 	end
 
